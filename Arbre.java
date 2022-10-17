@@ -2,12 +2,13 @@ package td1.arbres;
 
 import java.util.Set;
 
-public interface Arbre {
+public interface Arbre<T extends Sommable<T> & Comparable<T>> {
     int taille();
-    boolean contient(final Integer val);
-    Set<Integer> valeurs();
-    Integer somme();
-    Integer min();
-    Integer max();
+    boolean contient(final T val);
+
+    Set<T> valeurs();
+    T somme();
+    T min();
+    T max();
     boolean estTrie();
 }
