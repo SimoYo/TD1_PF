@@ -1,6 +1,6 @@
 package td1.arbres;
 
-public class Entier implements Sommable<Entier>{
+public class Entier implements Sommable<Entier>, Comparable<Entier> {
 
 
     private Integer val;
@@ -16,4 +16,10 @@ public class Entier implements Sommable<Entier>{
     public Integer getVal(){
         return this.val;
     }
+
+    @Override
+    public int compareTo(Entier o) {
+        return this.val.compareTo(o.val);
+    }
 }
+

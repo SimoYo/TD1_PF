@@ -1,6 +1,6 @@
 package td1.arbres;
 
-public class Chaine implements Sommable<Chaine>{
+public class Chaine implements Sommable<Chaine>, Comparable<Chaine> {
 
 
     private String val;
@@ -18,4 +18,8 @@ public class Chaine implements Sommable<Chaine>{
     }
 
 
+    @Override
+    public int compareTo(Chaine o) {
+        return this.val.compareTo(o.val);
+    }
 }
