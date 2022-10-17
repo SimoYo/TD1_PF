@@ -2,11 +2,11 @@ package td1.arbres;
 
 import java.util.Set;
 
-public class Feuille implements Arbre, IFeuille {
+public class Feuille<T extends Sommable<T> & Comparable<T>> implements Arbre<T>, IFeuille {
 
-    private final int valeur;
+    private final T valeur;
 
-    public Feuille(final int valeur) {
+    public Feuille(final T valeur) {
         this.valeur = valeur;
     }
 
@@ -15,28 +15,29 @@ public class Feuille implements Arbre, IFeuille {
         return 1;
     }
 
+
     @Override
-    public boolean contient(final Integer val) {
+    public boolean contient(final T val) {
         return val.equals(valeur);
     }
 
     @Override
-    public Set<Integer> valeurs() {
+    public Set<T> valeurs() {
         return Set.of(valeur);
     }
 
     @Override
-    public Integer somme() {
+    public T somme() {
+        return null;
+    }
+
+    @Override
+    public T min() {
         return valeur;
     }
 
     @Override
-    public Integer min() {
-        return valeur;
-    }
-
-    @Override
-    public Integer max() {
+    public T max() {
         return valeur;
     }
 
