@@ -4,13 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Noeud implements Arbre {
+public class Noeud<T extends Sommable<T> & Comparable<T>> implements Arbre<T> {
+    private final List<Arbre<T>> fils;
 
-    private final List<Arbre> fils;
-
-    public Noeud(final List<Arbre> fils) {
+    public Noeud(final List<Arbre<T>> fils) {
         this.fils = fils;
     }
+
 
     @Override
     public int taille() {
@@ -22,7 +22,7 @@ public class Noeud implements Arbre {
     }
 
     @Override
-    public boolean contient(final Integer val) {
+    public boolean contient(final T val) {
         boolean rtr = false;
         for (final Arbre a : fils) {
             if (a.contient(val)) return true;
@@ -31,8 +31,8 @@ public class Noeud implements Arbre {
     }
 
     @Override
-    public Set<Integer> valeurs() {
-        Set<Integer> rtr = new HashSet<>();
+    public Set<T> valeurs() {
+        Set<T> rtr = new HashSet<>();
         for (final Arbre a : fils) {
             rtr.addAll(a.valeurs());
         }
@@ -40,47 +40,36 @@ public class Noeud implements Arbre {
     }
 
     @Override
-    public Integer somme() {
-        if (fils == null || fils.size() == 0)
-            return null; // should it be 0 ? no because nothing to sum
-        // alternative without 0 initialization
-        // int rtr = fils.get(0).somme();
-        // for (int i = 1; i<fils.size(); i++) {
-        //     rtr += fils.get(i).somme();
-        // }
-        int rtr = 0;
-        for (Arbre a : fils) {
-            rtr += a.somme();
-        }
-        return rtr;
+    public T somme() {
+        return null;
+    }
+
+
+    @Override
+    public T min() {
+
+            T x = fils.get(0).min();
+            for(Arbre <T> minimum : fils){
+                T var = minimum.min();
+                if(x.compareTo(minimum.min()) >0)
+                {
+                    x=var;
+                }
+            }
+            return x;
+
     }
 
     @Override
-    public Integer min() {
-        if (fils == null || fils.size() == 0)
-            return null;
-        int rtr = fils.get(0).min();
-        for (int i = 1; i < fils.size(); i++) {
-            int min = fils.get(i).min();
-            if (min < rtr) {
-                rtr = min;
+    public T max() {
+        T x = fils.get(0).min();
+        for(Arbre <T> maximum : fils){
+            T var = maximum.min();
+            if(x.compareTo(maximum.max())<0) {
+                x=var;
             }
         }
-        return rtr;
-    }
-
-    @Override
-    public Integer max() {
-        if (fils == null || fils.size() == 0)
-            return null;
-        int rtr = fils.get(0).max();
-        for (int i = 1; i < fils.size(); i++) {
-            int max = fils.get(i).max();
-            if (max > rtr) {
-                rtr = max;
-            }
-        }
-        return rtr;
+        return x;
     }
 
     /**
@@ -107,13 +96,14 @@ public class Noeud implements Arbre {
 
     private boolean conditionTrie2() {
         boolean rtr = true;
-        for (int i = 0; i < fils.size() - 1; i++) {
-            final Arbre fi = fils.get(i);
-            final Arbre fj = fils.get(i+1);
-                if (fi.max() > fj.min())
-                    return false;
+
+        for( int i = 0; i < fils.size() - 1; i++){
+            Arbre<T> condi1 = fils.get(i);
+            if(condi1.max().compareTo(fils.get(i+1).min())>0){
+                rtr = false;
+            }
         }
         return rtr;
     }
-    
+
 }
